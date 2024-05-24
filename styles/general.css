@@ -38,7 +38,12 @@ body{
 
 #resultImage{
     padding-top: 100px;
-    border-radius: 20%;
+    border-radius: 10%;
+}
+
+#resultImage2{
+    padding-top: 100px;
+    border-radius: 50%;
 }
 /* bottom styles */
 .myFooter{

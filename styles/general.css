@@ -1,5 +1,7 @@
+/* import font */
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 
+/* body styles */
 body{
     background-color: lightblue;
     color: black;
@@ -10,6 +12,7 @@ body{
     font-size: larger;
 }
 
+/* general styles */
 .brown-bg{
     background-color: rgb(228, 183, 99);
 }
@@ -36,7 +39,7 @@ body{
 #resultImage{
     padding-top: 100px;
 }
-
+/* bottom styles */
 .myFooter{
   position: fixed;
   left: 0;
@@ -47,7 +50,7 @@ body{
 #extraSpace{
     padding: 140px;
 }
-
+/* Table styles */
 .park-table td{
     padding-left: 10px;
     padding-right: 10px;
@@ -64,5 +67,5 @@ body{
     padding-bottom: 10px;
     padding-top: 10px;
     border: solid;
-    
+
 }

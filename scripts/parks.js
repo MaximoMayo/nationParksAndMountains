@@ -10,149 +10,111 @@ const parkFilter = document.getElementById("parkFilter");
 const resultParkContainer = document.getElementById("resultParkContainer");
 
 function init() {
-    setupEventListenersParks();
     populateDropdownParks();
+    setupEventListenersParks();
 }
 
 function populateDropdownParks(){
     parkFilter.innerHTML = "";
     if(typeFilter.value == "location"){
         populateDropdownParksLocation();
-    }
-    else{
+    } 
+    else if (typeFilter.value == "type"){
         populateDropdownParksType();
     }
 }
 
-function populateDropdownParksType() { 
+function populateDropdownParksLocation() { 
     const fragment = document.createDocumentFragment(); 
-  
-    parkTypesArray.forEach((park) => {
-      const option = new Option(`${park} `, park);
+    locationsArray.forEach((location) => {
+      const option = new Option(`${location} `, location);
       fragment.appendChild(option); 
     });
     parkFilter.appendChild(fragment);
 }
 
-function populateDropdownParksLocation() { 
+function populateDropdownParksType() { 
     const fragment = document.createDocumentFragment(); 
-    locationsArray.forEach((park) => {
-      const option = new Option(`${park} `, park);
+  
+    parkTypesArray.forEach((parkType) => {
+      const option = new Option(`${parkType} `, parkType);
       fragment.appendChild(option); 
     });
     parkFilter.appendChild(fragment);
 }
 
 function setupEventListenersParks(){
-    typeFilter.addEventListener("change", selectFilterFunction());
-    typeFilter.addEventListener("change", populateDropdownParks);
+    typeFilter.addEventListener("change", function() {
+        populateDropdownParks();
+        selectFilterFunction(); // Call selectFilterFunction to set up the appropriate filter based on the selected type
+    });
 }
 
 function selectFilterFunction() {
     const selectedFilter = typeFilter.value;
-    console.log(selectedFilter);
+    parkFilter.removeEventListener("change", filterParkLocation);
+    parkFilter.removeEventListener("change", filterParkType);
+
     if (selectedFilter === "location") {
-        parkFilter.addEventListener("change",filterParkLocation());
+        parkFilter.addEventListener("change", filterParkLocation);
+        // Initially trigger the filtering function
+        filterParkLocation();
     } else if (selectedFilter === "type") {
-        parkFilter.addEventListener("change",filterParkType());
+        parkFilter.addEventListener("change", filterParkType);
+        // Initially trigger the filtering function
+        filterParkType();
     }
 }
 
-
 function filterParkLocation(){
-    const selectedPark = parkFilter.value;
-    const filteredParks = nationalParksArray.filter(location => location.State.includes(selectedPark));
-    resultParkContainer.innerHTML = "";
-
-    // Create a table element
-    const table = document.createElement("table");
-    table.classList.add("park-table");
-
-    // Create table headers
-    const headerRow = document.createElement("tr");
-    const headers = ["LocationID", "Name", "Address", "Phone", "URL"];
-    headers.forEach(headerText => {
-        const headerCell = document.createElement("th");
-        headerCell.textContent = headerText;
-        headerRow.appendChild(headerCell);
-    });
-    table.appendChild(headerRow);
-
-    // Append filtered parks to the table
-    filteredParks.forEach(park => {
-        const row = document.createElement("tr");
-        const parkIDCell = document.createElement("td");
-        parkIDCell.textContent = park.LocationID;
-        row.appendChild(parkIDCell);
-
-        const parkNameCell = document.createElement("td");
-        parkNameCell.textContent = park.LocationName;
-        row.appendChild(parkNameCell);
-
-        const addressCell = document.createElement("td");
-        addressCell.textContent = park.Address;
-        row.appendChild(addressCell);
-
-        const phoneCell = document.createElement("td");
-        phoneCell.textContent = park.Phone;
-        row.appendChild(phoneCell);
-
-        const urlCell = document.createElement("td");
-        urlCell.textContent = park.Visit;
-        row.appendChild(urlCell);
-
-        table.appendChild(row);
-    });
-
-    // Append table to the result container
-    resultParkContainer.appendChild(table);
+    const selectedLocation = parkFilter.value;
+    const filteredParks = nationalParksArray.filter(park => park.State.includes(selectedLocation));
+    displayFilteredParks(filteredParks, ["LocationID", "LocationName", "Address", "Phone", "Visit"]);
 }
 
 function filterParkType(){
-    const selectedPark = parkFilter.value;
-    const filteredParks = nationalParksArray.filter(location => location.LocationName.includes(selectedPark));
+    const selectedType = parkFilter.value;
+    const filteredParks = nationalParksArray.filter(park => park.LocationName.includes(selectedType));
+    displayFilteredParks(filteredParks, ["LocationID", "LocationName", "Address", "Phone", "Visit"]);
+}
+
+function displayFilteredParks(filteredParks, fields){
     resultParkContainer.innerHTML = "";
 
-    // Create a table element
+    if (filteredParks.length === 0) {
+        resultParkContainer.textContent = "No parks found.";
+        return;
+    }
+
+    const table = createTable(fields);
+    populateTableRows(table, filteredParks, fields);
+
+    resultParkContainer.appendChild(table);
+}
+
+function createTable(fields){
     const table = document.createElement("table");
     table.classList.add("park-table");
 
-    // Create table headers
     const headerRow = document.createElement("tr");
-    const headers = ["LocationID", "Name", "Address", "Phone", "URL"];
-    headers.forEach(headerText => {
+    fields.forEach(field => {
         const headerCell = document.createElement("th");
-        headerCell.textContent = headerText;
+        headerCell.textContent = field === "LocationID" ? "Location" : field === "LocationName" ? "Name" : field === "Visit" ? "URL" : field;
         headerRow.appendChild(headerCell);
     });
     table.appendChild(headerRow);
 
-    // Append filtered parks to the table
-    filteredParks.forEach(park => {
+    return table;
+}
+
+function populateTableRows(table, parks, fields){
+    parks.forEach(park => {
         const row = document.createElement("tr");
-        const parkIDCell = document.createElement("td");
-        parkIDCell.textContent = park.LocationID;
-        row.appendChild(parkIDCell);
-
-        const parkNameCell = document.createElement("td");
-        parkNameCell.textContent = park.LocationName;
-        row.appendChild(parkNameCell);
-
-        const addressCell = document.createElement("td");
-        addressCell.textContent = park.Address;
-        row.appendChild(addressCell);
-
-        const phoneCell = document.createElement("td");
-        phoneCell.textContent = park.Phone;
-        row.appendChild(phoneCell);
-
-        const urlCell = document.createElement("td");
-        urlCell.textContent = park.Visit;
-        row.appendChild(urlCell);
-
+        fields.forEach(field => {
+            const cell = document.createElement("td");
+            cell.textContent = park[field];
+            row.appendChild(cell);
+        });
         table.appendChild(row);
     });
-
-    // Append table to the result container
-    resultParkContainer.appendChild(table);
 }

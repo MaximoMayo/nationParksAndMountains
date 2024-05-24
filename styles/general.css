@@ -38,6 +38,7 @@ body{
 
 #resultImage{
     padding-top: 100px;
+    border-radius: 20%;
 }
 /* bottom styles */
 .myFooter{
@@ -50,6 +51,11 @@ body{
 #extraSpace{
     padding: 140px;
 }
+
+#extraSpace2{
+    margin-bottom: 700px;
+}
+
 /* Table styles */
 .park-table td{
     padding-left: 10px;
@@ -58,6 +64,7 @@ body{
     padding-bottom: 10px;
     padding-top: 10px;
     border: solid;
+    background-color: lightcyan;
 }
 
 .park-table th{
@@ -67,5 +74,5 @@ body{
     padding-bottom: 10px;
     padding-top: 10px;
     border: solid;
-
+    background-color: lightsalmon;
 }

@@ -1,17 +1,11 @@
 "use strict";
-
-import { locationsArray } from './locationData.js';
 import { mountainsArray } from './mountainData.js';
-import { nationalParksArray } from './nationalParkData.js';
-import { parkTypesArray } from './parkTypeData.js';
 
 document.addEventListener("DOMContentLoaded", init);
 
 function init() {
     populateDropdownMountain();
     setupEventListenersMountains();
-    //populateDropdownParks();
-    //setupEventListenersParks()
 }
 
 function populateDropdownMountain() {
@@ -32,6 +26,7 @@ function setupEventListenersMountains(){
 function displayMountains(){
     const selectedMountainName = document.getElementById("searchFilter").value;
     const resultContainer = document.getElementById('resultContainer');
+    document.getElementById("extraSpace").style.padding = "40px";
     resultContainer.innerHTML = '';
   
     const filteredMountain = mountainsArray.find(mountain => mountain.name == selectedMountainName);
@@ -53,6 +48,6 @@ function displayMountains(){
 
 }
 
-if (document.getElementById('resultContainer') == null){
 
-}
+
+

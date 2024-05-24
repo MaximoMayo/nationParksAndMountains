@@ -43,3 +43,26 @@ body{
   bottom: 0;
   width: 100%;
 }
+
+#extraSpace{
+    padding: 140px;
+}
+
+.park-table td{
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border: solid;
+}
+
+.park-table th{
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border: solid;
+    
+}
